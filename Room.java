@@ -20,6 +20,31 @@ public class Room {
          numOfMonsters = 1;
       }
       for (int i = 0; i < numOfItems; i++) {
+         boolean obtainableItem = false;
+         while (obtainableItem == false) {
+            Item potentialItem = new Item();
+            if (potentialItem.equals("Cursed Ring")) {
+               
+            }
+            else if (potentialItem.equals("Dragon Egg")) {
+               
+            }
+            else if (potentialItem.equals("Spellbook of Darkness")) {
+               
+            }
+            else if (potentialItem.equals("Minotaurs Axe")) {
+               
+            }
+            else if (potentialItem.equals("Ancient Scroll")) {
+               
+            }
+            else if (potentialItem.equals("Mysterious Rune Stone")) {
+               
+            }
+            else {
+               obtainableItem = true;
+            }
+         }
          itemsInRoom.add(new Item());
       }
       for (int x = 0; x < numOfMonsters; x++) {
@@ -28,7 +53,7 @@ public class Room {
       // TODO: Create the ArrayLists to hold the Items and Monsters in the Room and populate them with Monsters and Items
       
    }
-   public ArrayList getItems() {
+   public ArrayList<Item> getItems() {
       return itemsInRoom;
    }
    public void takeItem(int itemVal) {
@@ -37,7 +62,17 @@ public class Room {
    public void dropItem(Item item) {
       itemsInRoom.add(item);
    }
-   
+   public ArrayList<Monster> getMonsters() {
+      return monstersInRoom;
+   }
+   public void monsterSlain(int monsterVal) {
+      monstersInRoom.remove(monsterVal);
+   }
+   public void addItem(String itemName) {
+      Item itemToAdd = new Item();
+      itemToAdd.setItemType(itemName);
+      itemsInRoom.add(itemToAdd);
+   }
    public String toString() {
       String returnString = "Items in room: ";
 
@@ -46,9 +81,9 @@ public class Room {
       for (Item item : itemsInRoom) {
          returnString = returnString + " " + item;
       }
-      returnString = returnString + "  Monsters in room: ";
+      returnString = returnString + "   Monsters in room: ";
       for (Monster monster : monstersInRoom) {
-         returnString = returnString + " " + monster;
+         returnString = returnString + " " + monster + " stares at you ";
       }
       return returnString;
    }
