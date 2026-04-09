@@ -362,7 +362,7 @@ public class Item {
    }
    public String toString() {
       // TODO: Build a descriptive String for use by other methods
-      return "a " + itemType;
+      return itemType;
       
    }
 }

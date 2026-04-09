@@ -22,6 +22,28 @@ public class Player {
       
       // TODO: create the empty Inventory
       inventory = new ArrayList<Item>();
+      Item startingSword = null;
+      boolean isRustySword = false;
+      while (isRustySword == false) {
+         startingSword =  new Item();
+         if (startingSword.getItemType().equals("Rusty Sword")) {
+            inventory.add(startingSword);
+            isRustySword = true;
+         }
+         else {
+         }
+      }
+      Item healingPot = null;
+      boolean isHealPot = false;
+      while (isHealPot == false) {
+         healingPot =  new Item();
+         if (healingPot.getItemType().equals("Healing Potion")) {
+            inventory.add(healingPot);
+            isHealPot = true;
+         }
+         else {
+         }
+      }
       equipableItems = new ArrayList<Item>();
       armor = new ArrayList<Item>();
       left = new Item[1];
@@ -86,7 +108,7 @@ public class Player {
       return right[0];
    }
    public void unequipR() {
-      left[0].setWhereEquipped(null);
+      right[0].setWhereEquipped(null); 
       right[0] = null;
    }
    public void equipB(Item equipBItem) {
@@ -97,8 +119,8 @@ public class Player {
       return body[0];
    }
    public void unequipB() {
-      body[0] = null;
       body[0].setWhereEquipped(null);
+      body[0] = null;
    }  
    public ArrayList<Item> getEquipableItems() {
       for (int i = equipableItems.size() - 1; i > -1; i--) {
@@ -130,7 +152,7 @@ public class Player {
    public boolean hasItem(String itemName) {
       boolean isInInventory = false;
       for (Item targetItem : inventory) {
-         if (targetItem.equals(itemName)) {
+         if (targetItem.getItemType().equals(itemName)) {
             isInInventory = true;
          }
       }
@@ -158,7 +180,14 @@ public class Player {
       this.mana -= manaCost;
    }
    public void heal(int healAmount) {
-      this.health += healAmount;
+      int healthAfterHeal = this.health;
+      healthAfterHeal += healAmount;
+      if (healthAfterHeal <= 100) {
+         this.health += healAmount;
+      }
+      else {
+         this.health = 100;
+      }
    }
    public void addMana(int addAmount) {
       this.mana += addAmount;

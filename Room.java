@@ -13,6 +13,8 @@ public class Room {
       int numOfMonsters = (int)(Math.random() * maxNumberOfItems);
       itemsInRoom = new ArrayList<Item>();
       monstersInRoom = new ArrayList<Monster>();
+      Item potentialItem = null;
+      Monster potentialMonster = null;
       if (numOfItems == 0) {
          numOfItems = 1;
       }
@@ -22,32 +24,42 @@ public class Room {
       for (int i = 0; i < numOfItems; i++) {
          boolean obtainableItem = false;
          while (obtainableItem == false) {
-            Item potentialItem = new Item();
-            if (potentialItem.equals("Cursed Ring")) {
+            potentialItem = new Item();
+            if (potentialItem.getItemType().equals("Cursed Ring")) {
                
             }
-            else if (potentialItem.equals("Dragon Egg")) {
+            else if (potentialItem.getItemType().equals("Dragon Egg")) {
                
             }
-            else if (potentialItem.equals("Spellbook of Darkness")) {
+            else if (potentialItem.getItemType().equals("Spellbook of Darkness")) {
                
             }
-            else if (potentialItem.equals("Minotaurs Axe")) {
+            else if (potentialItem.getItemType().equals("Minotaurs Axe")) {
                
             }
-            else if (potentialItem.equals("Ancient Scroll")) {
+            else if (potentialItem.getItemType().equals("Ancient Scroll")) {
                
             }
-            else if (potentialItem.equals("Mysterious Rune Stone")) {
+            else if (potentialItem.getItemType().equals("Mysterious Rune Stone")) {
                
             }
             else {
                obtainableItem = true;
             }
          }
-         itemsInRoom.add(new Item());
+         itemsInRoom.add(potentialItem);
       }
       for (int x = 0; x < numOfMonsters; x++) {
+         boolean notBoss = false;
+         while (notBoss == false) {
+            potentialMonster = new Monster();
+            if (potentialMonster.getMonsterType().equals("Doppelganger")) {
+            
+            }
+            else {
+               notBoss = true;
+            }
+         }
          monstersInRoom.add(new Monster());
       }
       // TODO: Create the ArrayLists to hold the Items and Monsters in the Room and populate them with Monsters and Items
@@ -79,7 +91,7 @@ public class Room {
       // TODO: build a returnString that nicely formats the Monsters and Items in the Room
       // HINT: Use a for-each loop to go through the ArrayLists
       for (Item item : itemsInRoom) {
-         returnString = returnString + " " + item;
+         returnString = returnString + " a " + item;
       }
       returnString = returnString + "   Monsters in room: ";
       for (Monster monster : monstersInRoom) {

@@ -17,7 +17,7 @@ private String monsterType;
             "Wraith",
             "Minotaur",
             "Basilisk",
-            "Doppelgänger",
+            "Doppelganger",
             "Demon Hound",
             "Cave Serpent",
             "Ancient Dragon"
@@ -275,8 +275,8 @@ private String monsterType;
          healAmount = 0;
          blockAmount = 0;
       }
-      else if (monsterType == "Doppelgänger") {
-         mHealth = 50;
+      else if (monsterType == "Doppelganger") {
+         mHealth = 100;
          mAttackName[0] = "copy";
          mAttackName[1] = "copy";
          mAttackName[2] = "copy";
