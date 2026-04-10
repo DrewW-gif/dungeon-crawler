@@ -3,8 +3,8 @@ import java.util.ArrayList;
 public class Room {
    private ArrayList<Item> itemsInRoom;
    private ArrayList<Monster> monstersInRoom;
-   private final int maxNumberOfMonsters = 2;
-   private final int maxNumberOfItems = 2;
+   private final int maxNumberOfMonsters = 3;
+   private final int maxNumberOfItems = 3;
    
    public Room() {
       // TODO: Generate a random number of monsters and items between 1 and max (inclusive)
@@ -86,16 +86,16 @@ public class Room {
       itemsInRoom.add(itemToAdd);
    }
    public String toString() {
-      String returnString = "Items in room: ";
+      String returnString = "Items in room: \n";
 
       // TODO: build a returnString that nicely formats the Monsters and Items in the Room
       // HINT: Use a for-each loop to go through the ArrayLists
       for (Item item : itemsInRoom) {
-         returnString = returnString + " a " + item;
+         returnString = returnString + " a " + item + "\n";
       }
-      returnString = returnString + "   Monsters in room: ";
+      returnString = returnString + "\n Monsters in room: \n";
       for (Monster monster : monstersInRoom) {
-         returnString = returnString + " " + monster + " stares at you ";
+         returnString = returnString + " " + monster + " stares at you \n";
       }
       return returnString;
    }

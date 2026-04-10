@@ -99,7 +99,7 @@ public class Game {
                         }
                      }
                   }
-                  System.out.println("You dropped " + player.getItemFromInventory(selectedInventoryItem));
+                  System.out.println("You dropped the " + player.getItemFromInventory(selectedInventoryItem));
                   player.getRoom(dungeonMap).dropItem(player.getItemFromInventory(selectedInventoryItem));
                   player.removeItemFromInventory(player.getItemFromInventory(selectedInventoryItem));
                }
@@ -131,7 +131,7 @@ public class Game {
                         usedHPot = false;
                         usedInvis = false;
                         pBlocked = false;
-                        if (dInvis > 0) {
+                        if (invis > 0) {
                            invis--;
                         }
                         amountItemBlocked = 0;
@@ -145,12 +145,30 @@ public class Game {
                                  if (player.getCurrentMana() >= player.checkRSlot().getManaCost()) {
                                     player.useMagicItem(player.checkRSlot().getManaCost());
                                     player.checkRSlot().used();
+                                    if (player.checkRSlot().getItemType().equals("Ancient Scroll")) {
+                                       System.out.println("You read the incantation on the scroll in the ancient tongue a great power surges through you as you stare at the");
+                                       System.out.println(player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " you release the power at it in a runic swirl of power");
+                                    }
+                                    else if (player.checkRSlot().getItemType().equals("Magic Amulet")) {
+                                       System.out.println("You release the power in the amulet at the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
+                                    }
+                                    else if (player.checkRSlot().getItemType().equals("Spellbook of Fire")) {
+                                       System.out.println("As you read the incantation on the page a blazing fire forms infront of you as the symbol on the page of the book");
+                                       System.out.println("glows brighter and as you release the inferno upon the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " the page crumbles to ashes");
+                                    }
+                                    else if (player.checkRSlot().getItemType().equals("Mysterious Rune Stone")) {
+                                       System.out.println("As you transfer mana into the rune stone the markings on it begin to glow bright blue and you release a powerful");
+                                       System.out.println("energy toward the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
+                                    }
+                                    else if (player.checkRSlot().getItemType().equals("Crystal Orb")) {
+                                       System.out.println("As you channel mana into the crystal orb a beam of magic shoots out towards the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
+                                    }
                                     if (player.checkRSlot().getDamage() - damageMBlocked <= 0) {
-                                          
+                                          System.out.println("...but the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " protected itself completely");
                                     }
                                     else {
                                        if (dInvis > 0) {
-                                       
+                                          System.out.println(" ...but you missed");
                                        }
                                        else {
                                           player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).takeDamage(player.checkRSlot().getDamage() - damageMBlocked);
@@ -158,7 +176,8 @@ public class Game {
                                     }
                                  }
                                  else {
-                                    System.out.println("You didn't  have enough mana to attack");
+                                    System.out.println("You didn't have enough mana to attack");
+                                    player.useMagicItem(player.getCurrentMana());
                                  }
                               }
                               if (player.checkRSlot().canBlock()) {
@@ -169,27 +188,32 @@ public class Game {
                               if (player.checkRSlot().isSpecial()) {
                                  if (player.checkRSlot().isMagicItem() == false) {
                                     if (player.checkRSlot().getItemType().equals("Healing Potion")) {
+                                       System.out.println("You drink a healing potion and heal 20 health points");
                                        player.heal(20);
                                        player.checkRSlot().used();
                                        usedHPot = true;
                                     }
                                     else if (player.checkRSlot().getItemType().equals("Potion of Invisibility")) {
+                                       System.out.println("You drink a potion of invisibility and fade from the room");
                                        invis = 2;
                                        player.checkRSlot().used();
                                        usedInvis = true;
                                     }
                                     else  if (player.checkRSlot().getItemType().equals("Cursed Ring")) {
                                        if (player.checkRSlot().getDamage() - damageMBlocked <= 0) {
-                                          
+                                          System.out.println("You released the energy kept within the cursed ring but the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " protected itself completely");
                                        }
                                        else {
                                           if (dInvis > 0) {
-                                          
+                                             System.out.println("You released the energy kept within cursed ring but you missed");
                                           }
                                           else {
+                                             System.out.println("You release the energy kept within the cursed ring as it glows brighter a burst of magic power is");
+                                             System.out.println("released toward the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
                                              player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).takeDamage(player.checkRSlot().getDamage() - damageMBlocked);
                                           }
                                        }
+                                       System.out.println("The cursed ring glows brighter as you feel your body slightly weaken");
                                        player.takeDamage(10);
                                        player.checkRSlot().used();
                                     }
@@ -199,20 +223,48 @@ public class Game {
                                  player.addMana(player.checkRSlot().getReplishAmount());
                               }
                               else {
+                                    if (player.checkRSlot().getItemType().equals("Rusty Sword")) {
+                                       System.out.println("You swing your rusty sword towards the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
+                                    }
+                                    else if (player.checkRSlot().getItemType().equals("Goblin Dagger")) {
+                                       System.out.println("You slice at the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " with your goblin dagger");
+                                    }
+                                    else if (player.checkRSlot().getItemType().equals("Venomous Dagger")) {
+                                       System.out.println("You slice at the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " with your venomous dagger");
+                                    }
+                                    else if (player.checkRSlot().getItemType().equals("Knights Sword")) {
+                                       System.out.println("You swing your knights sword towards the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
+                                    }
+                                    else if (player.checkRSlot().getItemType().equals("Wooden Club")) {
+                                       System.out.println("You swing your wooden club towards the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
+                                    }
+                                    else if (player.checkRSlot().getItemType().equals("Minotaurs Axe")) {
+                                       System.out.println("You swing your minotaurs axe towards the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
+                                    }
                                  if (player.checkRSlot().getDamage() - damageMBlocked <= 0) {
-                                    
+                                    System.out.println(" ... but the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " protected itself completely");
                                  }
                                  else {
-                                    player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).takeDamage(player.checkRSlot().getDamage() - damageMBlocked);
+                                    if (dInvis > 0) {
+                                       System.out.println(" ...but you missed");
+                                    }
+                                    else {
+                                       player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).takeDamage(player.checkRSlot().getDamage() - damageMBlocked);
+                                    }
                                  }
                               }
                            }
                            else {
                               if (damageMBlocked > 0) {
-                                 
+                                 System.out.println("You swing your fists at the " +player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
                               }
                               else {
-                                 player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).takeDamage(1);
+                                 if (dInvis > 0) {
+                                    System.out.println(" ... but you missed");
+                                 }
+                                 else {
+                                    player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).takeDamage(1);
+                                 }
                               }
                            }
                         }  
@@ -222,11 +274,34 @@ public class Game {
                                  if (player.getCurrentMana() >= player.checkLSlot().getManaCost()) {
                                     player.useMagicItem(player.checkLSlot().getManaCost());
                                     player.checkLSlot().used();
+                                    if (player.checkLSlot().getItemType().equals("Ancient Scroll")) {
+                                       System.out.println("You read the incantation on the scroll in the ancient tongue a great power surges through you as you stare at the");
+                                       System.out.println(player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " you release the power at it in a runic swirl of power");
+                                    }
+                                    else if (player.checkLSlot().getItemType().equals("Magic Amulet")) {
+                                       System.out.println("You release the power in the amulet at the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
+                                    }
+                                    else if (player.checkLSlot().getItemType().equals("Spellbook of Fire")) {
+                                       System.out.println("As you read the incantation on the page a blazing fire forms infront of you as the symbol on the page of the book");
+                                       System.out.println("glows brighter and as you release the inferno upon the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " the page crumbles to ashes");
+                                    }
+                                    else if (player.checkLSlot().getItemType().equals("Mysterious Rune Stone")) {
+                                       System.out.println("As you transfer mana into the rune stone the markings on it begin to glow bright blue and you release a powerful");
+                                       System.out.println("energy toward the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
+                                    }
+                                    else if (player.checkLSlot().getItemType().equals("Crystal Orb")) {
+                                       System.out.println("As you channel mana into the crystal orb a beam of magic shoots out towards the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
+                                    }
                                     if (player.checkLSlot().getDamage() - damageMBlocked <= 0) {
-                                    
+                                       System.out.println("...but the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " protected itself completely");
                                     }
                                     else {
-                                       player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).takeDamage(player.checkLSlot().getDamage() - damageMBlocked);
+                                       if (dInvis > 0) {
+                                          System.out.println(" ...but you missed");
+                                       }
+                                       else {
+                                          player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).takeDamage(player.checkLSlot().getDamage() - damageMBlocked);
+                                       }
                                     }
                                  }
                                  else {
@@ -241,22 +316,32 @@ public class Game {
                               if (player.checkLSlot().isSpecial()) {
                                  if (player.checkLSlot().isMagicItem() == false) {
                                     if (player.checkLSlot().getItemType().equals("Healing Potion")) {
+                                       System.out.println("You drink a healing potion and heal 20 health points");
                                        player.heal(20);
                                        player.checkLSlot().used();
                                        usedHPot = true;
                                     }
                                     else if (player.checkLSlot().getItemType().equals("Potion of Invisibility")) {
+                                       System.out.println("You drink a potion of invisibility and fade from the room");
                                        invis = 2;
                                        player.checkLSlot().used();
                                        usedInvis = true;
                                     }
                                     else  if (player.checkLSlot().getItemType().equals("Cursed Ring")) {
                                        if (player.checkRSlot().getDamage() - damageMBlocked <= 0) {
-                                    
+                                          System.out.println("You released the energy kept within the cursed ring but the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " protected itself completely");
                                        }
                                        else {
-                                          player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).takeDamage(player.checkLSlot().getDamage() - damageMBlocked);
+                                          if (dInvis > 0) {
+                                             System.out.println("You released the energy kept within cursed ring but you missed");
+                                          }
+                                          else {
+                                             System.out.println("You release the energy kept within the cursed ring as it glows brighter a burst of magic power is");
+                                             System.out.println("released toward the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
+                                             player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).takeDamage(player.checkLSlot().getDamage() - damageMBlocked);
+                                          }
                                        }
+                                       System.out.println("The cursed ring grows brighter as you feel your body slightly weaken");
                                        player.takeDamage(10);
                                        player.checkRSlot().used();
                                     }
@@ -270,16 +355,49 @@ public class Game {
                                     
                                  }
                                  else {
-                                    player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).takeDamage(player.checkLSlot().getDamage());
+                                    if (player.checkLSlot().getItemType().equals("Rusty Sword")) {
+                                       System.out.println("You swing your rusty sword towards the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
+                                    }
+                                    else if (player.checkLSlot().getItemType().equals("Goblin Dagger")) {
+                                       System.out.println("You slice at the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " with your goblin dagger");
+                                    }
+                                    else if (player.checkLSlot().getItemType().equals("Venomous Dagger")) {
+                                       System.out.println("You slice at the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " with your venomous dagger");
+                                    }
+                                    else if (player.checkLSlot().getItemType().equals("Knights Sword")) {
+                                       System.out.println("You swing your knights sword towards the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
+                                    }
+                                    else if (player.checkLSlot().getItemType().equals("Wooden Club")) {
+                                       System.out.println("You swing your wooden club towards the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
+                                    }
+                                    else if (player.checkLSlot().getItemType().equals("Minotaurs Axe")) {
+                                       System.out.println("You swing your minotaurs axe towards the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
+                                    }
+                                    if (player.checkLSlot().getDamage() - damageMBlocked <= 0) {
+                                       System.out.println("...but the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " protected itself completely");
+                                    }
+                                    else {
+                                       if (dInvis > 0) {
+                                          System.out.println(" ...but you missed");
+                                       }
+                                       else {
+                                          player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).takeDamage(player.checkLSlot().getDamage());
+                                       }
+                                    }
                                  }
                               }
                            }
                            else {
                               if (damageMBlocked > 0) {
-                                 
+                                 System.out.println("You swing your fists at the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
                               }
                               else {
-                                 player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).takeDamage(1);
+                                 if (dInvis > 0) {
+                                    System.out.println(" ...but you missed");
+                                 }
+                                 else {
+                                    player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).takeDamage(1);
+                                 }
                               }
                            }
                         }
@@ -288,6 +406,7 @@ public class Game {
                               for (int r = 0; r < player.getInventory().size(); r++) {
                                  if (player.getItemFromInventory(r).isEquipped()) {
                                     if (player.getItemFromInventory(r).getWhereEquipped().equals("Right")) {
+                                       System.out.println("Your " + player.checkRSlot() + " broke");
                                        player.removeItemFromInventory(player.getItemFromInventory(r));
                                        player.unequipR();
                                     }
@@ -300,6 +419,7 @@ public class Game {
                               for (int l = 0; l < player.getInventory().size(); l++) {
                                  if (player.getItemFromInventory(l).isEquipped()) {
                                     if (player.getItemFromInventory(l).getWhereEquipped().equals("Left")) {
+                                       System.out.println("Your " + player.checkLSlot() + " broke");
                                        player.removeItemFromInventory(player.getItemFromInventory(l));
                                        player.unequipL();
                                     }
@@ -312,6 +432,7 @@ public class Game {
                               for (int b = 0; b < player.getInventory().size(); b++) {
                                  if (player.getItemFromInventory(b).isEquipped()) {
                                     if (player.getItemFromInventory(b).getWhereEquipped().equals("Body")) {
+                                       System.out.println("Your " + player.checkBSlot() + " broke");
                                        player.removeItemFromInventory(player.getItemFromInventory(b));
                                        player.unequipB();
                                     }
@@ -333,16 +454,22 @@ public class Game {
                            if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMonsterType().equals("Doppelganger")) {
                               damageMBlocked = damageBlock - amountItemBlocked;
                               if (usedInvis) {
+                                 System.out.println("The Doppelganger used shadow cloak and dissappeared");
                                  dInvis = 2;
                               }
                               else if (usedHPot) {
-                                 player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).healM(20);
+                                 player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).healM(15);
+                                 System.out.println("The Doppelganger used heal and healed itself");
                               }
                               else if (pBlocked) {
+                                 System.out.println("The DoppelGanger sheilded itself");
                                  damageMBlocked += amountItemBlocked;
                               }
                               else {
-                                 int soulProtection = (int)(damageBlock / 2);
+                                 int soulProtection = (int)(damageBlock / 4);
+                                 System.out.println("The Doppelganger spoke something that sounded some what like an incantation in the ancient tongue and dark runic symbols");
+                                 System.out.println("form around the Doppelganger and you circling the both of you as you feel a familiar pain spreading through out your");
+                                 System.out.println("body as the symbols fade the Doppelganger stares into your eyes and grins with your smile");
                                  player.takeDamage(50 - player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMHealth() - soulProtection);
                               }
                            }
@@ -351,11 +478,13 @@ public class Game {
                               System.out.println(player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " just " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttacks()[monsterAttack]);
                               if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).whereHeal() == monsterAttack) {
                                  if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttackDamage()[monsterAttack] - damageBlock <= 0) {
-                                       
+                                    if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttackDamage()[monsterAttack] > 0) {
+                                       System.out.println("But you successfully blocked");
+                                    }
                                  }
                                  else {
                                     if (invis > 0) {
-                                    
+                                       System.out.println("The " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " missed");
                                     }
                                     else {
                                        player.takeDamage(player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttackDamage()[monsterAttack] - damageBlock);
@@ -383,11 +512,11 @@ public class Game {
                               }
                               else {
                                  if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttackDamage()[monsterAttack] - damageBlock <= 0) {
-                                    
+                                    System.out.println("But you successfully blocked");
                                  }
                                  else {
                                     if (invis > 0) {
-                                    
+                                       System.out.println("The " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " missed");
                                     }
                                     else {
                                        player.takeDamage(player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttackDamage()[monsterAttack] - damageBlock);
@@ -414,6 +543,45 @@ public class Game {
                                  }
                               }
                            }
+                           if (!player.rSlotOpen()) {
+                           if (player.checkRSlot().getDurability() <= 0) {
+                              for (int r = 0; r < player.getInventory().size(); r++) {
+                                 if (player.getItemFromInventory(r).isEquipped()) {
+                                    if (player.getItemFromInventory(r).getWhereEquipped().equals("Right")) {
+                                       System.out.println("The " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " just broke your " + player.checkRSlot());
+                                       player.removeItemFromInventory(player.getItemFromInventory(r));
+                                       player.unequipR();
+                                    }
+                                 }
+                              }
+                           }
+                        }
+                        if (!player.lSlotOpen()) {
+                           if (player.checkLSlot().getDurability() <= 0) {
+                              for (int l = 0; l < player.getInventory().size(); l++) {
+                                 if (player.getItemFromInventory(l).isEquipped()) {
+                                    if (player.getItemFromInventory(l).getWhereEquipped().equals("Left")) {
+                                       System.out.println("The " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " just broke your " + player.checkLSlot());
+                                       player.removeItemFromInventory(player.getItemFromInventory(l));
+                                       player.unequipL();
+                                    }
+                                 }
+                              }
+                           }
+                        }
+                        if (!player.bSlotOpen()) {
+                           if (player.checkBSlot().getDurability() <= 0) {
+                              for (int b = 0; b < player.getInventory().size(); b++) {
+                                 if (player.getItemFromInventory(b).isEquipped()) {
+                                    if (player.getItemFromInventory(b).getWhereEquipped().equals("Body")) {
+                                       System.out.println("The " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " just broke your " + player.checkBSlot());
+                                       player.removeItemFromInventory(player.getItemFromInventory(b));
+                                       player.unequipB();
+                                    }
+                                 }
+                              }
+                           }
+                        }
                         }
                         if (player.getHealth() <= 0) {
                            System.out.println("-------------------------------------------------------");
@@ -571,7 +739,7 @@ public class Game {
                         }
                         else {
                            System.out.println("Invalid input! Please enter a number.");
-                           scanner.nextLine(); // CRITICAL: Clear the letters out of the scanner
+                           scanner.nextLine();
                         }
                      }
                      else {
@@ -607,7 +775,7 @@ public class Game {
                      }
                      else {
                         System.out.println("Invalid input! Please enter a number.");
-                        scanner.nextLine(); // CRITICAL: Clear the letters out of the scanner
+                        scanner.nextLine();
                      }
                   }
                   else {

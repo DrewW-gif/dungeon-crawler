@@ -44,6 +44,17 @@ public class Player {
          else {
          }
       }
+      Item invis = null;
+      boolean isInvis = false;
+      while (isInvis == false) {
+         invis = new Item();
+         if (invis.getItemType().equals("Potion of Invisibility")) {
+            inventory.add(invis);
+            isInvis = true;
+         }
+         else {
+         }
+      }
       equipableItems = new ArrayList<Item>();
       armor = new ArrayList<Item>();
       left = new Item[1];

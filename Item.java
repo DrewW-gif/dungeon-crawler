@@ -160,7 +160,7 @@ public class Item {
          isEquipped = false;
          specialItem = true;
          durability = 3;
-         magicItem = true;
+         magicItem = false;
          manaCost = 10;
          replishMana = false;
          amountMReplish = 0;
