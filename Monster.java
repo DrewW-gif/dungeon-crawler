@@ -101,8 +101,8 @@ private String monsterType;
          mAttackName[1] = "used void spikes";
          mAttackName[2] = "used heal";
          
-         mAttackDamage[0] = 8;
-         mAttackDamage[1] = 6;
+         mAttackDamage[0] = 15;
+         mAttackDamage[1] = 8;
          mAttackDamage[2] = 0; //heals 6 damage from d sorcerer
          
          whereHealAttack = 2;
@@ -161,9 +161,9 @@ private String monsterType;
          mAttackName[1] = "mimicked a Demon Hound and used hellfire";
          mAttackName[2] = "mimicked a Werewolf and used regenerate";
          
-         mAttackDamage[0] = 8;
+         mAttackDamage[0] = 15;
          mAttackDamage[1] = 8;
-         mAttackDamage[2] = 6; //heals 6 damage from self
+         mAttackDamage[2] = 0; //heals 6 damage from self
          
          whereHealAttack = 2;
          whereBlock = -1;

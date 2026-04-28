@@ -3,6 +3,10 @@ import java.util.ArrayList;
 public class Room {
    private ArrayList<Item> itemsInRoom;
    private ArrayList<Monster> monstersInRoom;
+   private boolean isMonstersInRoom;
+   private Monster doppelganger;
+   private Monster newMonster;
+   private Monster dragon;
    private final int maxNumberOfMonsters = 3;
    private final int maxNumberOfItems = 3;
    
@@ -15,6 +19,10 @@ public class Room {
       monstersInRoom = new ArrayList<Monster>();
       Item potentialItem = null;
       Monster potentialMonster = null;
+      doppelganger = null;
+      newMonster = null;
+      dragon = null;
+      boolean isMonstersInRoom = true;
       if (numOfItems == 0) {
          numOfItems = 1;
       }
@@ -60,7 +68,7 @@ public class Room {
                notBoss = true;
             }
          }
-         monstersInRoom.add(new Monster());
+         monstersInRoom.add(potentialMonster);
       }
       // TODO: Create the ArrayLists to hold the Items and Monsters in the Room and populate them with Monsters and Items
       
@@ -85,6 +93,48 @@ public class Room {
       itemToAdd.setItemType(itemName);
       itemsInRoom.add(itemToAdd);
    }
+   public boolean checkForMonsters() {
+      if (monstersInRoom.size() <= 0) {
+         isMonstersInRoom = false;
+      }
+      else {
+         isMonstersInRoom = true;
+      }
+      return isMonstersInRoom;
+   }
+   public void spawnDoppelganger() {
+      boolean isDoppelganger = false;
+      while (isDoppelganger == false) {
+         doppelganger = new Monster();
+         if (doppelganger.getMonsterType().equals("Doppelganger")) {
+            isDoppelganger = true;
+         }
+      }
+      monstersInRoom.add(doppelganger);
+   }
+   public void spawnDragon() {
+      boolean isDragon = false;
+      while (isDragon == false) {
+         dragon = new Monster();
+         if (dragon.getMonsterType().equals("Ancient Dragon")) {
+            isDragon = true;
+         }
+      }
+      monstersInRoom.add(dragon);
+   }
+   public void spawnMonster() {
+      boolean notDoppelganger = false;
+      while (notDoppelganger == false) {
+         newMonster = new Monster();
+         if (newMonster.getMonsterType().equals("Doppelganger")) {
+            
+         }
+         else {
+            notDoppelganger = true;
+         }
+      }
+      monstersInRoom.add(newMonster);
+   }
    public String toString() {
       String returnString = "Items in room: \n";
 
@@ -95,7 +145,7 @@ public class Room {
       }
       returnString = returnString + "\n Monsters in room: \n";
       for (Monster monster : monstersInRoom) {
-         returnString = returnString + " " + monster + " stares at you \n";
+         returnString = returnString + " a " + monster + " stares at you \n";
       }
       return returnString;
    }

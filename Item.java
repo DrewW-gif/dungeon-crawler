@@ -10,6 +10,7 @@ public class Item {
    private int amountBlocks;
    private boolean canBlock;
    private String whereEquipped;
+   private boolean canPierce;
    private final String[] itemTypes = {
             "Rusty Sword",
             "Healing Potion",
@@ -56,6 +57,7 @@ public class Item {
          canBlock = false;
          amountBlocks = 0;
          whereEquipped = null;
+         canPierce = false;
       }
       else if (itemType == "Healing Potion") {
          attackDamage = 20;
@@ -70,6 +72,7 @@ public class Item {
          canBlock = false;
          amountBlocks = 0;
          whereEquipped = null;
+         canPierce = false;
       }
       else if (itemType == "Ancient Scroll") {
          attackDamage = 50; // vanishes after use
@@ -84,6 +87,7 @@ public class Item {
          canBlock = false;
          amountBlocks = 0;
          whereEquipped = null;
+         canPierce = true;
       }
       else if (itemType == "Chainmail Armor") {
          whereEquip = "body";
@@ -97,6 +101,7 @@ public class Item {
          canBlock = false;
          amountBlocks = 8;
          whereEquipped = null;
+         canPierce = false;
       }
       else if (itemType == "Magic Amulet") {
          attackDamage = 20; //shatters after 4 uses
@@ -111,6 +116,7 @@ public class Item {
          canBlock = false;
          amountBlocks = 10;
          whereEquipped = null;
+         canPierce = false;
       }
       else if (itemType == "Goblin Dagger") {
          attackDamage = 3;
@@ -125,6 +131,7 @@ public class Item {
          canBlock = false;
          amountBlocks = 0;
          whereEquipped = null;
+         canPierce = false;
       }
       else if (itemType == "Spellbook of Fire") {
          attackDamage = 7;
@@ -139,6 +146,7 @@ public class Item {
          canBlock = false;
          amountBlocks = 0;
          whereEquipped = null;
+         canPierce = false;
       }
       else if (itemType == "Mysterious Rune Stone") {
          attackDamage = 30; // shatters after use
@@ -153,6 +161,7 @@ public class Item {
          canBlock = false;
          amountBlocks = 0;
          whereEquipped = null;
+         canPierce = true;
       }
       else if (itemType == "Cursed Ring") {
          attackDamage = 15; //does 10 damage to user as well when used also breaks after 3 uses
@@ -167,6 +176,7 @@ public class Item {
          canBlock = false;
          amountBlocks = 0;
          whereEquipped = null;
+         canPierce = false;
       }
       else if (itemType == "Potion of Invisibility") {
          whereEquip = "hand";
@@ -180,6 +190,7 @@ public class Item {
          canBlock = false;
          amountBlocks = 0;
          whereEquipped = null;
+         canPierce = false;
       }
       else if (itemType == "Iron Shield") {
          whereEquip = "hand";
@@ -193,6 +204,7 @@ public class Item {
          canBlock = true;
          amountBlocks = 5;
          whereEquipped = null;
+         canPierce = false;
       }
       else if (itemType == "Crystal Orb") {
          attackDamage = 5;
@@ -207,6 +219,7 @@ public class Item {
          canBlock = false;
          amountBlocks = 0;
          whereEquipped = null;
+         canPierce = false;
       }
       else if (itemType == "Mana Potion") {
          attackDamage = 0;
@@ -221,6 +234,7 @@ public class Item {
          canBlock = false;
          amountBlocks = 0;
          whereEquipped = null;
+         canPierce = false;
       }
       else if (itemType == "Venomous Dagger") {
          attackDamage = 10;
@@ -235,6 +249,7 @@ public class Item {
          canBlock = false;
          amountBlocks = 0;
          whereEquipped = null;
+         canPierce = true;
       }
       else if (itemType == "Knights Sword") {
          attackDamage = 8;
@@ -249,6 +264,7 @@ public class Item {
          canBlock = false;
          amountBlocks = 0;
          whereEquipped = null;
+         canPierce = true;
       }
       else if (itemType == "Wooden Club") {
          attackDamage = 4;
@@ -263,6 +279,7 @@ public class Item {
          canBlock = false;
          amountBlocks = 0;
          whereEquipped = null;
+         canPierce = false;
       }
       else if (itemType == "Minotaurs Axe") {
          attackDamage = 8;
@@ -277,6 +294,7 @@ public class Item {
          canBlock = false;
          amountBlocks = 0;
          whereEquipped = null;
+         canPierce = true;
       }
       else if (itemType == "Spellbook of Darkness") {
          attackDamage = 12; // vanishes after 3 uses
@@ -291,6 +309,7 @@ public class Item {
          canBlock = false;
          amountBlocks = 0;
          whereEquipped = null;
+         canPierce = true;
       }
       else {
          whereEquip = "";
@@ -304,6 +323,7 @@ public class Item {
          canBlock = false;
          amountBlocks = 0;
          whereEquipped = null;
+         canPierce = false;
       }
    }
    public void equipped() {
@@ -359,6 +379,9 @@ public class Item {
    }
    public void setItemType(String itemName) {
       this.itemType = itemName;
+   }
+   public boolean canPierce() {
+      return canPierce;
    }
    public String toString() {
       // TODO: Build a descriptive String for use by other methods

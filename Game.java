@@ -8,10 +8,20 @@ public class Game {
       boolean usedHPot = false;
       int invis = 0;
       int dInvis = 0;
+      boolean next = false;
+      boolean go = false;
       boolean usedInvis = false;
+      boolean moveOn = false;
+      int tHealth = 100;
+      int tMana = 100;
+      int tMHealth = 0;
       boolean pBlocked = false;
       int amountItemBlocked = 0;
       int amountArmorBlocked = 0;
+      boolean monsterSpawns = true;
+      boolean attacked = false;
+      String input = null;
+      boolean beatTheGame = false;
       Game game = new Game();
       Map dungeonMap = new Map(5, 6);
             
@@ -27,11 +37,279 @@ public class Game {
       System.out.println("Welcome what is your name?");
       String chosenName = scanner.nextLine();
       player.setName(chosenName);
+      System.out.println("Welcome " + chosenName + " do you want to do the tutorial first?");
+      System.out.println("Anything that happenneds in the tutorial will no be carried over into the actual game after you finish");
+      System.out.println("                                                                               [Yes/No]");
+      String yesOrNo = scanner.nextLine().toUpperCase();
+      if (yesOrNo.equals("YES")) {
+         player.setTutorial();
+         player.setTutorialSteps();
+         int tx = 0;
+         int ty = 0;
+         attacked = false;
+         for (int tutorialStep = 0; tutorialStep <= player.getTutorialSteps().size(); tutorialStep++) {
+            next = false;
+            moveOn = false;
+            while (next == false) {
+               System.out.println("                                   You are at coordinates: {" + tx + ", " + ty + "}");
+               System.out.println(player.getTutorial().get(tutorialStep));
+               String response = scanner.nextLine().toUpperCase();
+               if (tutorialStep > 0) {
+                  if (player.getTutorialSteps().get(tutorialStep - 1).equals("ATTACK")) {
+                     tutorialStep += 1;
+                     tMana = 100;
+                     boolean chosen = false;
+                     while (chosen == false) {
+                        System.out.println("Which monster would you like to attack:");
+                        System.out.println("1)Goblin");
+                        String Goblin = scanner.nextLine();
+                        if (Goblin.equals("1")) {
+                           System.out.println("You have chosen to attack the Goblin");
+                           System.out.println("--------------------Preparing Battle--------------------");
+                           System.out.println("Items equipped");
+                           System.out.println("Left: Empty");
+                           System.out.println("Armor: Empty");
+                           System.out.println("Right: Rusty Sword");
+                           System.out.println(chosenName + "'s Health: 100  Goblin's Health: 20");
+                           System.out.println("Your current mana is at " + tMana);
+                           System.out.println("");
+                           boolean r = false;
+                           tutorialStep += 1;
+                           while (r == false) {
+                              System.out.println("Which item do you want to use L)Empty  or R)Rusty Sword");
+                              System.out.println(player.getTutorial().get(tutorialStep));
+                              String R = scanner.nextLine().toUpperCase();
+                              if (R.equals("R")) {
+                                 tutorialStep += 1;
+                                 System.out.println("You swing your rusty sword towards the Goblin");
+                                 tMHealth -= 5;
+                                 System.out.println("The Goblin just stabbed you");
+                                 tHealth -= 2;
+                                 tMana++;
+                                 System.out.println(chosenName + "'s Health: " + tHealth + "  Goblin's Health: " + tMHealth);
+                                 System.out.println("Your currnt mana is at " + tMana);
+                                 System.out.println("");
+                                 System.out.println(player.getTutorial().get(tutorialStep));
+                                 boolean battling = true;
+                                 while (battling == true) {
+                                    System.out.println("Which item do you want to use L)Empty  or R)Rusty Sword");
+                                    String tAttack = scanner.nextLine().toUpperCase();
+                                    System.out.println(chosenName + "'s Health: " + tHealth + "  Goblin's Health: " + tMHealth);
+                                    System.out.println("Your currnt mana is at " + tMana);
+                                    System.out.println("");
+                                    System.out.println("Which item do you want to use L)Empty  or R)Rusty Sword");
+                                    String leftOrRight = scanner.nextLine().toUpperCase();
+                                    if (leftOrRight.equals("R")) {
+                                       System.out.println("You swing your rusty sword towards the Goblin");
+                                       tMHealth -= 5;
+                                    }
+                                    else if (leftOrRight.equals("L")) {
+                                       
+                                    }
+                                    else {
+                                       
+                                    }
+                                 }
+                              }
+                              else if (R.equals("L")) {
+                                 System.out.println("Sorry before you try punching the Goblin attack  it with your sword it does more damage than your fists type [R]");
+                              }
+                              else {
+                                 System.out.println("Sorry we are trying to attack the goblinif you get distracted in a real fight the monster will still attack type [R]");
+                              }
+                           }
+                        }
+                        else {
+                           System.out.println("Sorry we are trying to attack the Goblin try typing [1]");
+                        }
+                     }
+                  }
+               }
+               if (player.getTutorialSteps().get(tutorialStep).equals("")) {
+                  if (response.contains("")) {
+                     next = true;
+                  }
+               }
+               else {
+                  if (response.equals(player.getTutorialSteps().get(tutorialStep))) {
+                     if (player.getTutorialSteps().get(tutorialStep).equals("INVENTORY")) {
+                        System.out.println("Your inventory contains:");
+                        System.out.println("Rusty Sword");
+                        System.out.println("Healing Potion");
+                        next = true;
+                     }
+                     else if (player.getTutorialSteps().get(tutorialStep).equals("EQUIP")) {
+                        if (tutorialStep < 10) {
+                           tutorialStep += 1;
+                        }
+                        moveOn = false;
+                        go = false;
+                        while (moveOn == false) {
+                           System.out.println("Where do you want to equip an item? R (right) L (left) or B (body)");
+                           if (tutorialStep < 10) {
+                              System.out.println(player.getTutorial().get(tutorialStep));
+                           }
+                           String lOrR = scanner.nextLine().toUpperCase();
+                           if (tutorialStep < 10) {
+                              if (lOrR.equals("R")) {
+                                 tutorialStep += 1;
+                                 while (go == false) {
+                                    System.out.println("Which item would you like to equip? (press the cooresponding number): ");
+                                    System.out.println("1)Rusty Sword");
+                                    System.out.println("2)Healing Potion");
+                                    System.out.println(player.getTutorial().get(tutorialStep));
+                                    String one = scanner.nextLine();
+                                    if (one.equals("1")) {
+                                       System.out.println("You equipped a Rusty Sword to your right equipment slot");
+                                       go = true;
+                                       next = true;
+                                       moveOn = true;
+                                    }
+                                    else {
+                                       System.out.println("Sorry we are trying to equip the Rusty Sword try again");
+                                    }
+                                 }
+                              }
+                              else {
+                                 System.out.println("Sorry we are trying to equip something to the Right equipment slot try typing [R]");
+                              }
+                           }
+                           else {
+                              if (lOrR.equals("L")) {
+                                 System.out.println("Which item would you like to equip? (press the cooresponding number): ");
+                                 System.out.println("1)Rusty Sword");
+                                 System.out.println("2)Goblin Dagger");
+                                 String two = scanner.nextLine();
+                                 if (two.equals("2")) {
+                                    System.out.println("You equipped a Goblin Dagger to your left equipment slot");
+                                    go = true;
+                                    next = true;
+                                    moveOn = true;
+                                 }
+                                 else {
+                                    System.out.println("Sorry we are trying to equip the Goblin Dagger try again");
+                                 }
+                              }
+                              else {
+                                 System.out.println("Sorry we are trying to equip something to the Left equipment slot try typing [L]");
+                              }
+                           }
+                        }
+                     }
+                     else if (player.getTutorialSteps().get(tutorialStep).equals("LOOK")) {
+                        if (attacked == true) {
+                           System.out.println("Items in room:");
+                           System.out.println(" a Trap Disarming Kit");
+                           System.out.println(" a Goblin Dagger");
+                           System.out.println("");
+                           System.out.println("Monsters in room:");
+                           next = true;
+                        }
+                        else {
+                           System.out.println("Items in room:");
+                           System.out.println(" a Trap Disarming Kit");
+                           System.out.println("");
+                           System.out.println("Monsters in room:");
+                           System.out.println(" a Goblin stares at you");
+                           next = true;
+                        }
+                     }
+                     else if (player.getTutorialSteps().get(tutorialStep).equals("GRAB")) {
+                        if (attacked == false) {
+                           tutorialStep += 1;
+                           boolean didIt = false;
+                           while (didIt == false) {
+                              System.out.println("Which item do you want to add to your inventory (press associated number to item): ");
+                              System.out.println("1)Trap Disarming Kit");
+                              System.out.println(player.getTutorial().get(tutorialStep));
+                              String isOne = scanner.nextLine();
+                              if (isOne.equals("1")) {
+                                 System.out.println("You reach down and grab the Trap Disarming Kit");
+                                 didIt = true;
+                                 next = true;
+                              }
+                              else {
+                                 System.out.println("Sorry we are trying to grab the Trap Disarming Kit try typing [1]");
+                              }
+                           }
+                        }
+                        else {
+                           boolean doneIt = false;
+                           while (doneIt == false) {
+                              System.out.println("Which item do you want to add to your inventory (press associated number to item): ");
+                              System.out.println("1)Trap Disarming Kit");
+                              System.out.println("2)Goblin Dagger");
+                              String isTwo = scanner.nextLine();
+                              if (isTwo.equals("2")) {
+                                 System.out.println("You reach down and grab the Goblin Dagger");
+                                 doneIt = true;
+                                 next = true;
+                              }
+                              else {
+                                 System.out.println("Sorry we are trying to pick up the Goblin Dagger try typing [2]");
+                              }
+                           }
+                        }
+                     }
+                     else if (player.getTutorialSteps().get(tutorialStep).equals("DROP")) {
+                        boolean dropped = false;
+                        tutorialStep += 1;
+                        while (dropped == false) {
+                           System.out.println("Which item do you want to drop (press associated number to item): 1))Rusty Sword 2)Healing Potion 3)Trap Disarming Kit");
+                           System.out.println(player.getTutorial().get(tutorialStep));
+                           String three = scanner.nextLine();
+                           if (three.equals("3")) {
+                              System.out.println("You dropped the Trap Disarming Kit");
+                              dropped = true;
+                              next = true;
+                           }
+                           else {
+                              System.out.println("Sorry we are trying to drop the Trap Disarming Kit try typing [3]");
+                           }
+                        }
+                     }
+                     else if (player.getTutorialSteps().get(tutorialStep).equals("HEAL")) {
+                        if (tHealth + 20 > 100) {
+                           tHealth = 100;
+                           next = true;
+                        }
+                        else {
+                           tHealth += 20;
+                           next = true;
+                        }
+                     }
+                     else if (player.getTutorialSteps().get(tutorialStep).equals("HEALTH")) {
+                        System.out.println("Your health is at " + tHealth);
+                        next = true;
+                     }
+                     else if (player.getTutorialSteps().get(tutorialStep).equals("LOOK L")) {
+                        System.out.println("Goblin Dagger");
+                        next = true;
+                     }
+                     else if (player.getTutorialSteps().get(tutorialStep).equals("MOVE DOWN")) {
+                        ty++;
+                        next = true;
+                     }
+                  }
+                  else {
+                     System.out.println("Thats not what we are trying to do right now please try again");
+                  }
+               }
+            }
+         }
+      }
+      else {
+         System.out.println("You have chosen to start the game good luck " + chosenName);
+      }
+      System.out.println("--------------------------Loading New Game------------------------");
+      System.out.println("");
+      System.out.println("~~~~~~ OBJECTIVE: Defeat all of the monsters in the dungeon ~~~~~~");
       while (exitGame != true) {
+      if (attacked == false) {
       System.out.println("                   You are at coodinates: {" + player.getX() + ", " + player.getY() + "}");
             System.out.print("Enter command: ");
-            String input = scanner.nextLine().toUpperCase();
-                        
+            input = scanner.nextLine().toUpperCase();
+      }
             if (input.equals("EXIT")) {
                 System.out.println("Exiting game. Goodbye!");
                 exitGame = true;
@@ -52,6 +330,7 @@ public class Game {
                   scanner.nextLine();
                   if (player.getRoom(dungeonMap).getItems().size() > 0) {
                     if (selectedItem <= player.getRoom(dungeonMap).getItems().size() + 1 && selectedItem > 0) {
+                      System.out.println("You reach down and grab the " + player.getRoom(dungeonMap).getItems().get(selectedItem - 1));
                       player.addItemToInventory(player.getRoom(dungeonMap).getItems().get(selectedItem - 1));
                       player.getRoom(dungeonMap).takeItem(selectedItem - 1);
                     }
@@ -73,52 +352,78 @@ public class Game {
                   count++;
                }
                System.out.println(itemsInInventory);
-               int selectedInventoryItem = scanner.nextInt();
-               scanner.nextLine();
-               if (selectedInventoryItem > 0 && selectedInventoryItem <= player.getInventory().size()) {
-                  selectedInventoryItem -= 1;
-                  int numOfItem = 0;
-                  for (Item pickedItem : player.getInventory()) {
-                     if (pickedItem.equals(player.getItemFromInventory(selectedInventoryItem))) {
-                        numOfItem++;
-                     }
-                  }
-                  if (numOfItem == 1) {
-                     if (player.getItemFromInventory(selectedInventoryItem).isEquipped()) {
-                        if (player.getItemFromInventory(selectedInventoryItem).getWhereEquipped().equals("Left")) {
-                           player.unequipL();
-                        }
-                        else if (player.getItemFromInventory(selectedInventoryItem).getWhereEquipped().equals("Right")) {
-                           player.unequipR();
-                        }
-                        else if (player.getItemFromInventory(selectedInventoryItem).getWhereEquipped().equals("Body")) {
-                           player.unequipB();
-                        }
-                        else {
-                           System.out.println("If you are seeing this something went wrong and some how the item you selected is not equipped");
+               if (scanner.hasNextInt()) {
+                  int selectedInventoryItem = scanner.nextInt();
+                  scanner.nextLine();
+                  if (selectedInventoryItem > 0 && selectedInventoryItem <= player.getInventory().size()) {
+                     selectedInventoryItem -= 1;
+                     int numOfItem = 0;
+                     for (Item pickedItem : player.getInventory()) {
+                        if (pickedItem.equals(player.getItemFromInventory(selectedInventoryItem))) {
+                           numOfItem++;
                         }
                      }
+                     if (numOfItem == 1) {
+                        if (player.getItemFromInventory(selectedInventoryItem).isEquipped()) {
+                           if (player.getItemFromInventory(selectedInventoryItem).getWhereEquipped().equals("Left")) {
+                              player.unequipL();
+                           }
+                           else if (player.getItemFromInventory(selectedInventoryItem).getWhereEquipped().equals("Right")) {
+                                 player.unequipR();
+                           }
+                           else if (player.getItemFromInventory(selectedInventoryItem).getWhereEquipped().equals("Body")) {
+                              player.unequipB();
+                           }
+                           else {
+                              System.out.println("If you are seeing this something went wrong and some how the item you selected is not equipped");
+                           }
+                        }
+                     }
+                     if (player.getItemFromInventory(selectedInventoryItem).getItemType().equals("Dragon Egg")) {
+                        System.out.println("You place the dragon egg on the ground as you start to walk away the egg hatches into an Ancient Dragon");
+                        player.removeItemFromInventory(player.getItemFromInventory(selectedInventoryItem));
+                     }
+                     else {
+                        System.out.println("You dropped the " + player.getItemFromInventory(selectedInventoryItem));
+                        player.getRoom(dungeonMap).dropItem(player.getItemFromInventory(selectedInventoryItem));
+                        player.removeItemFromInventory(player.getItemFromInventory(selectedInventoryItem));
+                     }
                   }
-                  System.out.println("You dropped the " + player.getItemFromInventory(selectedInventoryItem));
-                  player.getRoom(dungeonMap).dropItem(player.getItemFromInventory(selectedInventoryItem));
-                  player.removeItemFromInventory(player.getItemFromInventory(selectedInventoryItem));
+                  else {
+                     System.out.println("You don't have that item");
+                  }
                }
                else {
-                  System.out.println("You don't have that item");
+                  System.out.println("Invalid input! Please enter a number.");
+                  scanner.nextLine();
                }
             }
-            if (input.equals("ATTACK")) {
-               System.out.println("Which moster would you like to attack?: ");
-               int mCount = 0;
-               for (int m = 0; m < player.getRoom(dungeonMap).getMonsters().size(); m++) {
-                  mCount = m + 1;
-                  System.out.println(mCount + ")" + player.getRoom(dungeonMap).getMonsters().get(m));
+            if (input.equals("ATTACK") || attacked == true) {
+               int chosenMonster = 0;
+               if (attacked == false) {
+                  System.out.println("Which moster would you like to attack?: ");
+                  int mCount = 0;
+                  for (int m = 0; m < player.getRoom(dungeonMap).getMonsters().size(); m++) {
+                     mCount = m + 1;
+                     System.out.println(mCount + ")" + player.getRoom(dungeonMap).getMonsters().get(m));
+                  }
                }
-               if (scanner.hasNextInt()) {
-                  int chosenMonster = scanner.nextInt();
-                  scanner.nextLine();
+               if (scanner.hasNextInt() || attacked == true) {
+                  if (attacked == false) {
+                     chosenMonster = scanner.nextInt();
+                     scanner.nextLine();
+                  }
+                  else {
+                     chosenMonster = (int)(Math.random() * player.getRoom(dungeonMap).getMonsters().size());
+                     chosenMonster += 1;
+                  }
                   if (chosenMonster <= player.getRoom(dungeonMap).getMonsters().size() && chosenMonster > 0) {
-                     System.out.println("You have chosen to attack the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + "!");
+                     if (attacked == false) {
+                        System.out.println("You have chosen to attack the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
+                     }
+                     else {
+                        System.out.println("You have been attacked by a " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + "!!!!");
+                     }
                      System.out.println("--------------------Preparing Battle--------------------");
                      System.out.println("Items equipped");
                      System.out.println("Left: " + player.checkLSlot());
@@ -126,6 +431,7 @@ public class Game {
                      System.out.println("Right: " + player.checkRSlot());
                      invis = 0;
                      dInvis = 0;
+                     attacked = false;
                      while (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMHealth() > 0 && player.getHealth() > 0) {
                         damageBlock = 0;
                         usedHPot = false;
@@ -136,6 +442,7 @@ public class Game {
                         }
                         amountItemBlocked = 0;
                         System.out.println(player.getName() + "'s Health: " + player.getHealth() + "   " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + "'s Health: " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMHealth());
+                        System.out.println("Your current mana is at " + player.getCurrentMana());
                         System.out.println("");
                         System.out.println("Which item do you want to use L)" + player.checkLSlot() + "   or R)" + player.checkRSlot());
                         String attack = scanner.nextLine().toUpperCase();
@@ -171,6 +478,20 @@ public class Game {
                                           System.out.println(" ...but you missed");
                                        }
                                        else {
+                                          if (player.checkRSlot().canPierce()) {
+                                             if (player.checkRSlot().getItemType().equals("Mysterious Rune Stone")) {
+                                                damageMBlocked = (int)(damageMBlocked * 0.5);
+                                             }
+                                             else if (player.checkRSlot().getItemType().equals("Ancient Scroll")) {
+                                                damageMBlocked = 0;
+                                             }
+                                             else if (player.checkRSlot().getItemType().equals("Spellbook of Darkness")) {
+                                                damageMBlocked = 0;
+                                             }
+                                             else {
+                                                damageMBlocked = (int)(damageMBlocked * 0.75);
+                                             }
+                                          }
                                           player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).takeDamage(player.checkRSlot().getDamage() - damageMBlocked);
                                        }
                                     }
@@ -249,6 +570,9 @@ public class Game {
                                        System.out.println(" ...but you missed");
                                     }
                                     else {
+                                       if (player.checkRSlot().canPierce()) {
+                                          damageMBlocked = (int)(damageMBlocked * 0.75);
+                                       }
                                        player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).takeDamage(player.checkRSlot().getDamage() - damageMBlocked);
                                     }
                                  }
@@ -256,13 +580,14 @@ public class Game {
                            }
                            else {
                               if (damageMBlocked > 0) {
-                                 System.out.println("You swing your fists at the " +player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
+                                 System.out.println("You swing your fists at the " +player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " but it protected itself");
                               }
                               else {
                                  if (dInvis > 0) {
                                     System.out.println(" ... but you missed");
                                  }
                                  else {
+                                    System.out.println("You swing your fists at the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
                                     player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).takeDamage(1);
                                  }
                               }
@@ -300,6 +625,20 @@ public class Game {
                                           System.out.println(" ...but you missed");
                                        }
                                        else {
+                                          if (player.checkLSlot().canPierce()) {
+                                             if (player.checkLSlot().getItemType().equals("Mysterious Rune Stone")) {
+                                                damageMBlocked = (int)(damageMBlocked * 0.5);
+                                             }
+                                             else if (player.checkLSlot().getItemType().equals("Ancient Scroll")) {
+                                                damageMBlocked = 0;
+                                             }
+                                             else if (player.checkLSlot().getItemType().equals("Spellbook of Darkness")) {
+                                                damageMBlocked = 0;
+                                             }
+                                             else {
+                                                damageMBlocked = (int)(damageMBlocked * 0.75);
+                                             }
+                                          }
                                           player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).takeDamage(player.checkLSlot().getDamage() - damageMBlocked);
                                        }
                                     }
@@ -381,6 +720,9 @@ public class Game {
                                           System.out.println(" ...but you missed");
                                        }
                                        else {
+                                          if (player.checkLSlot().canPierce()) {
+                                             damageMBlocked = (int)(damageMBlocked * 0.75);
+                                          }
                                           player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).takeDamage(player.checkLSlot().getDamage());
                                        }
                                     }
@@ -389,13 +731,14 @@ public class Game {
                            }
                            else {
                               if (damageMBlocked > 0) {
-                                 System.out.println("You swing your fists at the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
+                                 System.out.println("You swing your fists at the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " but it protected itself");
                               }
                               else {
                                  if (dInvis > 0) {
                                     System.out.println(" ...but you missed");
                                  }
                                  else {
+                                    System.out.println("You swing your fists at the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
                                     player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).takeDamage(1);
                                  }
                               }
@@ -406,7 +749,12 @@ public class Game {
                               for (int r = 0; r < player.getInventory().size(); r++) {
                                  if (player.getItemFromInventory(r).isEquipped()) {
                                     if (player.getItemFromInventory(r).getWhereEquipped().equals("Right")) {
-                                       System.out.println("Your " + player.checkRSlot() + " broke");
+                                       if (player.checkRSlot().getItemType().contains("Potion")) {
+                                          System.out.println("The empty potion bottle seems to evaporate into the air and disappears");
+                                       }
+                                       else {
+                                          System.out.println("Your " + player.checkRSlot() + " broke");
+                                       }
                                        player.removeItemFromInventory(player.getItemFromInventory(r));
                                        player.unequipR();
                                     }
@@ -419,7 +767,12 @@ public class Game {
                               for (int l = 0; l < player.getInventory().size(); l++) {
                                  if (player.getItemFromInventory(l).isEquipped()) {
                                     if (player.getItemFromInventory(l).getWhereEquipped().equals("Left")) {
-                                       System.out.println("Your " + player.checkLSlot() + " broke");
+                                       if (player.checkLSlot().getItemType().contains("Potion")) {
+                                          System.out.println("The empty potion bottle seems to evapotate into the air and disappears");
+                                       }
+                                       else {
+                                          System.out.println("Your " + player.checkLSlot() + " broke");
+                                       }
                                        player.removeItemFromInventory(player.getItemFromInventory(l));
                                        player.unequipL();
                                     }
@@ -475,6 +828,69 @@ public class Game {
                            }
                            else {
                               int monsterAttack = (int)(Math.random() * 3);
+                              if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttacks()[monsterAttack].equals("slashed you with its sword")) {
+                                 damageBlock = (int)(damageBlock * 0.9);
+                              }
+                              else if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttacks()[monsterAttack].equals("stabbed you")) {
+                                 damageBlock = (int)(damageBlock * 0.8);
+                              }
+                              else if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttacks()[monsterAttack].equals("used shadow lance")) {
+                                 damageBlock = 0;
+                              }
+                              else if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttacks()[monsterAttack].equals("used void spikes")) {
+                                 damageBlock = 0;
+                              }
+                              else if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttacks()[monsterAttack].equals("used venom spray")) {
+                                 damageBlock = (int)(damageBlock * 0.75);
+                              }
+                              else if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttacks()[monsterAttack].equals("shrieked")) {
+                                 damageBlock = 0;
+                              }
+                              else if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttacks()[monsterAttack].equals("mimicked a Dark Sorcerer and used shadow lance")) {
+                                 damageBlock = 0;
+                              }
+                              else if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttacks()[monsterAttack].equals("mimicked a Demon Hound and used hellfire")) {
+                                 damageBlock = (int)(damageBlock * 0.75);
+                              }
+                              else if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttacks()[monsterAttack].equals("used abysses wrath")) {
+                                 damageBlock = 0;
+                              }
+                              else if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttacks()[monsterAttack].equals("used flame of darkness")) {
+                                 damageBlock = 0;
+                              }
+                              else if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttacks()[monsterAttack].equals("used soul drain")) {
+                                 damageBlock = 0;
+                              }
+                              else if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttacks()[monsterAttack].equals("used will o' wisp")) {
+                                 damageBlock = (int)(damageBlock * 0.75);
+                              }
+                              else if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttacks()[monsterAttack].equals("used spirit drain")) {
+                                 damageBlock = 0;
+                              }
+                              else if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttacks()[monsterAttack].equals("used hex")) {
+                                 damageBlock = 0;
+                              }
+                              else if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttacks()[monsterAttack].equals("swung its axe")) {
+                                 damageBlock = (int)(damageBlock * 0.75);
+                              }
+                              else if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttacks()[monsterAttack].equals("charged at you")) {
+                                 damageBlock = (int)(damageBlock * 0.6);
+                              }
+                              else if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttacks()[monsterAttack].equals("peers into your eyes")) {
+                                 damageBlock = 0;
+                              }
+                              else if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttacks()[monsterAttack].equals("used hellfire")) {
+                                 damageBlock = (int)(damageBlock * 0.7);
+                              }
+                              else if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttacks()[monsterAttack].equals("used poison breath")) {
+                                 damageBlock = (int)(damageBlock * 0.6);
+                              }
+                              else if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttacks()[monsterAttack].equals("used dragons breath")) {
+                                 damageBlock = 0;
+                              }
+                              else if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttacks()[monsterAttack].equals("used dragons rage")) {
+                                 damageBlock = (int)(damageBlock * 0.5);
+                              }
                               System.out.println(player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " just " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttacks()[monsterAttack]);
                               if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).whereHeal() == monsterAttack) {
                                  if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMAttackDamage()[monsterAttack] - damageBlock <= 0) {
@@ -698,7 +1114,87 @@ public class Game {
                                  System.out.println("The " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + " dropped a Wooden Club");
                               }
                            }
-                           player.getRoom(dungeonMap).monsterSlain(chosenMonster - 1);
+                           if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMonsterType().equals("Doppelganger")) {
+                              System.out.println("You've defeated the Doppelganger would you like to end the game and win or would you like to continue playing");
+                              System.out.println("if you choose to continue you will have to clear out the dungeon again and defeat the Doppelganger once again");
+                              System.out.println("to win and if you choose to exit you will win if you enter anything that isn't [stay] or [leave] you will");
+                              System.out.println("be automatically transferred to the win screen what will you choose");
+                              String nextAction = scanner.nextLine().toUpperCase();
+                              if (nextAction.equals("STAY")) {
+                                 System.out.println("You decided to stay...");
+                                 System.out.println("------------Generating Monsters-----------");
+                                 System.out.println("");
+                                 System.out.println("");
+                                 System.out.println("");
+                                 for (int mRow = 0; mRow < dungeonMap.getNumRows(); mRow++) {
+                                    for (int mCol = 0; mCol < dungeonMap.getNumCols(); mCol++) {
+                                       dungeonMap.getRoom(mRow, mCol).spawnMonster();
+                                    }
+                                 }
+                                 System.out.println("Monsters replenished returning to game");
+                                 monsterSpawns = true;
+                              }
+                              else if (nextAction.equals("LEAVE")) {
+                                 System.out.println("You decided to leave congratulations!!!!");
+                                 System.out.println("");
+                                 System.out.println("");
+                                 System.out.println("");
+                                 System.out.println("");
+                                 System.out.println("");
+                                 System.out.println("");
+                                 System.out.println("");
+                                 System.out.println("---------------------------------------------------------------------");
+                                 System.out.println("---------------------------------------------------------------------");
+                                 System.out.println("---------------------------------------------------------------------");
+                                 System.out.println("---------------------------------------------------------------------");
+                                 System.out.println("----------------  C O N G R A T U L A T I O N S  --------------------");
+                                 System.out.println("------------------  Y  O  U      W  I  N  !!!!  ---------------------");
+                                 System.out.println("---------------------------------------------------------------------");
+                                 System.out.println("---------------------------------------------------------------------");
+                                 System.out.println("---------------------------------------------------------------------");
+                                 System.out.println("---------------------------------------------------------------------");
+                                 System.out.println("---------------------------------------------------------------------");
+                                 for (int end = 0; end < 10; end++) {
+                                    try {
+                                       Thread.sleep(500);
+                                    } catch (InterruptedException e) {
+                                       Thread.currentThread().interrupt();
+                                    }
+                                    System.out.println("");
+                                 }
+                                 player.setWinCredits();
+                                 for (int endCredits = 0; endCredits < player.getCredits().size(); endCredits++) {
+                                    System.out.println(player.getCredits().get(endCredits));
+                                    try {
+                                       Thread.sleep(4000);
+                                    } catch (InterruptedException e) {
+                                       Thread.currentThread().interrupt();
+                                    }
+                                    System.out.println("");
+                                    try {
+                                       Thread.sleep(1000);
+                                    } catch (InterruptedException e) {
+                                       Thread.currentThread().interrupt();
+                                    }
+                                 }
+                                 beatTheGame = true;
+                                 exitGame = true;
+                              }
+                              else {
+                                 System.out.println("---------------------------------------------------------------------");
+                                 System.out.println("---------------------------------------------------------------------");
+                                 System.out.println("---------------------------------------------------------------------");
+                                 System.out.println("---------------------------------------------------------------------");
+                                 System.out.println("------------------  Y  O  U      W  I  N  !  ------------------------");
+                                 System.out.println("---------------------------------------------------------------------");
+                                 System.out.println("---------------------------------------------------------------------");
+                                 System.out.println("---------------------------------------------------------------------");
+                                 System.out.print("---------------------------------------------------------------------");
+                                 beatTheGame = true;
+                                 exitGame = true;
+                              }
+                           }
+                        player.getRoom(dungeonMap).monsterSlain(chosenMonster - 1);
                         }
                      }
                      else {
@@ -710,7 +1206,12 @@ public class Game {
                      scanner.nextLine();
                   }
                }
-           
+            if (input.equals("HEALTH")) {
+               System.out.println("Your health is at " + player.getHealth());
+            }
+            if (input.equals("CHECK MANA")) {
+               System.out.println("Your mana is at " + player.getCurrentMana());
+            }
             if (input.equals("LOOK L")) {
                System.out.println(player.checkLSlot());
             }
@@ -918,27 +1419,105 @@ public class Game {
                   System.out.println("You do not have the necessary item to heal yourself");
                }
             }
+            if (input.equals("RUN WINNERS CREDITS")) {
+               player.setWinCredits();
+               System.out.println("");
+               System.out.println("");
+               for (int runCredits = 0; runCredits < player.getCredits().size(); runCredits++) {
+                  System.out.println(player.getCredits().get(runCredits));
+                  try {
+                     Thread.sleep(4000);
+                  } catch (InterruptedException e) {
+                     Thread.currentThread().interrupt();
+                  }
+                  System.out.println("");
+                  try {
+                     Thread.sleep(1000);
+                  } catch (InterruptedException e) {
+                     Thread.currentThread().interrupt();
+                  }
+               }
+               player.resetCredits();
+            }
+            if (input.equals("CONTROLS")) {
+               player.setControls();
+               for (int controlLine = 0; controlLine < player.getControls().size(); controlLine++) {
+                  System.out.println(player.getControls().get(controlLine));
+                  try {
+                     Thread.sleep(4000);
+                  } catch (InterruptedException e) {
+                     Thread.currentThread().interrupt();
+                  }
+                  System.out.println("");
+                  try {
+                     Thread.sleep(1000);
+                  } catch (InterruptedException e) {
+                     Thread.currentThread().interrupt();
+                  }
+               }
+            }
             // TODO: get the player movement working correctly. It should NOT let the player
             // move beyond the boundaries of the map, and provide the user with descriptions
             // of what is happening. You'll have to change the if/else/if statements here to 
             // do this.
             else if (input.startsWith("MOVE ")) {
                String direction = input.substring(5);
+               int potentialAttack = (int)(Math.random() * 5);
                if (direction.equals("UP")) {
                   if (player.getY() - 1 >= 0) {
-                     player.moveTo(player.getX(), player.getY() - 1);
+                     if (player.getRoom(dungeonMap).checkForMonsters()) {
+                        if (potentialAttack == 4) {
+                           attacked = true;
+                         } 
+                         else {
+                            player.moveTo(player.getX(), player.getY() - 1);
+                         }
+                      }
+                      else {
+                         player.moveTo(player.getX(), player.getY() - 1);
+                      }
                   }
                } else if (direction.equals("DOWN")) {
                   if (player.getY() + 1 <= dungeonMap.getNumRows()) {
-                     player.moveTo(player.getX(), player.getY() + 1);
+                     if (player.getRoom(dungeonMap).checkForMonsters()) {
+                        if (potentialAttack == 4) {
+                           attacked = true;
+                        }
+                        else {
+                           player.moveTo(player.getX(), player.getY() + 1);
+                        }
+                     }
+                     else {
+                        player.moveTo(player.getX(), player.getY() + 1);
+                     }
                   }
                } else if (direction.equals("LEFT")) {   
                   if (player.getX() - 1 >= 0) {
-                     player.moveTo(player.getX() - 1, player.getY());
+                     if (player.getRoom(dungeonMap).checkForMonsters()) {
+                        if (potentialAttack == 4) {
+                           attacked = true;
+                        }
+                        else {
+                           player.moveTo(player.getX() - 1, player.getY());
+                        }
+                     }
+                     else {
+                        player.moveTo(player.getX() - 1, player.getY());
+                     }
                   }
                } else if (direction.equals("RIGHT")) {
                   if (player.getX() + 1 < dungeonMap.getNumCols()  - 1) {
-                     player.moveTo(player.getX() + 1, player.getY());
+                     if (player.getRoom(dungeonMap).checkForMonsters()) {
+                        if (potentialAttack == 4) {
+                           attacked = true;
+                        }
+                        else {
+                           player.moveTo(player.getX() + 1, player.getY());
+                        }
+                     }
+                     else {
+                        player.moveTo(player.getX() + 1, player.getY());
+                     }
                   }
                }
                else {
@@ -947,6 +1526,58 @@ public class Game {
             
          // TODO: display a message to the user telling them their current coordinates every time they move
          //System.out.println("                   You are at coodinates: {" + player.getX() + ", " + player.getY() + "}");
+         }
+         int countOfEmptyRooms = 0;
+         if (monsterSpawns = true) {
+            for (int r = 0; r < dungeonMap.getNumRows(); r++) {
+               for (int c = 0; c < dungeonMap.getNumCols(); c++) {
+                  if (dungeonMap.getRoom(r, c).checkForMonsters() == false) {
+                     countOfEmptyRooms++;
+                  }
+                  else {
+                  }
+               }
+            }
+         }
+         if (countOfEmptyRooms == dungeonMap.getNumRows() * dungeonMap.getNumCols()) {
+            monsterSpawns = false;
+            dungeonMap.getRoom(0, 0).spawnDoppelganger();
+            System.out.println("The Doppelganger appeared in room {0,0}");
+         }
+         else {
+            for (int row = 0; row < dungeonMap.getNumRows(); row++) {
+               for (int col = 0; col < dungeonMap.getNumCols(); col++) {
+                  int monsterSpawnChance = (int)(Math.random() * 100);
+                  if (monsterSpawnChance == 97) {
+                     dungeonMap.getRoom(row, col).spawnMonster();
+                  }
+               }
+            }
+         }
+      }
+      if (beatTheGame == false) {
+         player.setCredits();
+         for (int exiting = 0; exiting < 10; exiting++) {
+            try {
+               Thread.sleep(500);
+            } catch (InterruptedException e) {
+               Thread.currentThread().interrupt();
+            }
+            System.out.println("");
+         }
+         for (int exitingCredits = 0; exitingCredits < player.getCredits().size(); exitingCredits++) {
+            System.out.println(player.getCredits().get(exitingCredits));
+            try {
+               Thread.sleep(4000);
+            } catch (InterruptedException e) {
+               Thread.currentThread().interrupt();
+            }
+            System.out.println("");
+            try {
+               Thread.sleep(1000);
+            } catch (InterruptedException e) {
+               Thread.currentThread().interrupt();
+            }
          }
       }
    }
