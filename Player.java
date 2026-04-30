@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class Player {
    private ArrayList<String> tutorialSteps;
    private ArrayList<Item> inventory;
+   private ArrayList<String> deathCredits;
    private ArrayList<Item> equipableItems;
    private ArrayList<String> tutorial;
    private ArrayList<String> credits;
@@ -27,6 +28,7 @@ public class Player {
       // TODO: create the empty Inventory
       controls = new ArrayList<String>();
       credits = new ArrayList<String>();
+      deathCredits = new ArrayList<String>();
       inventory = new ArrayList<Item>();
       tutorial = new ArrayList<String>();
       tutorialSteps = new ArrayList<String>();
@@ -52,7 +54,7 @@ public class Player {
          else {
          }
       }
-   /* Item invis = null;
+   /**/ Item invis = null;
       boolean isInvis = false;
       while (isInvis == false) {
          invis = new Item();
@@ -62,7 +64,7 @@ public class Player {
          }
          else {
          }
-      } */
+      } /**/
       equipableItems = new ArrayList<Item>();
       armor = new ArrayList<Item>();
       left = new Item[1];
@@ -266,7 +268,7 @@ public class Player {
       credits.add("And Google Gemini AI for explaining concepts that were way too confusing to understand at first and for also");
       credits.add("assisting me in Java coding logic for random side projects that I do often and correcting its own logic");
       credits.add("Finally Thank You for playing my game and hope you play again soon");
-      credits.add("                                                                                    Game Finished 4/22/2026");
+      credits.add("                                                                                    Game Finished 4/29/2026");
    }
    public void setCredits() {
       credits.add("Despite you giving up and exiting I still would like to thank you for trying my game out I know its really hard");
@@ -277,7 +279,7 @@ public class Player {
       credits.add("I would also like to thank myself for creating most of this code");
       credits.add("Finally I'd like to thank you for giving my game a try and if you have the time I'd love you to try to win");
       credits.add("but I suppose it would take possibly hours if your luck sucks hope you come back and play again soon");
-      credits.add("                                                                                    Game Finished 4/22/2026");
+      credits.add("                                                                                    Game Finished 4/29/2026");
    }
    public void resetCredits() {
       for (int creditsLine = credits.size() - 1; creditsLine >= 0; creditsLine--) {
@@ -364,12 +366,24 @@ public class Player {
       tutorialSteps.add("HEAL");
       tutorialSteps.add("HEALTH");
       tutorialSteps.add("EQUIP");
-      tutorialSteps.add("L");
-      tutorialSteps.add("2");
       tutorialSteps.add("LOOK L");
       tutorialSteps.add("MOVE DOWN");
       tutorialSteps.add("");
       tutorialSteps.add("");
       tutorialSteps.add("");
+   }
+   public ArrayList<String> getDeathCredits() {
+      return deathCredits;
+   }
+   public void setDeathCredits() {
+      deathCredits.add("Looks like you have died thats unfortunate you had a good try though anyway I'd like to take this time to");
+      deathCredits.add("give credit for thethings that made this game possible");
+      deathCredits.add("First I would like to thank Google's Gemini AI for assisting me with finding my contradicting code");
+      deathCredits.add("I would also like to thank jGRASP's compile messaegs for helping me find most of my typos in my code");
+      deathCredits.add("I would also like to thank my Teacher Mr. Krowkower for teaching me the basics of Java coding logic and methods");
+      deathCredits.add("I would also like to thank myself for creating most of this code");
+      deathCredits.add("Finally I'd like to thank you for giving my game a try and if you have the time I'd love you to try to win");
+      deathCredits.add("but I suppose it would take possibly hours if your luck sucks hope you come back and play again soon");
+      deathCredits.add("                                                                                    Game Finished 4/29/2026");
    }
 }

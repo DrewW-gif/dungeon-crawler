@@ -6,8 +6,10 @@ public class Game {
       int damageMBlocked = 0;
       int damageBlock = 0;
       boolean usedHPot = false;
+      boolean died = false;
       int invis = 0;
       int dInvis = 0;
+      int mHealCD = 0;
       boolean next = false;
       boolean go = false;
       boolean usedInvis = false;
@@ -20,6 +22,8 @@ public class Game {
       int amountArmorBlocked = 0;
       boolean monsterSpawns = true;
       boolean attacked = false;
+      boolean battled = false;
+      boolean loser = false;
       String input = null;
       boolean beatTheGame = false;
       Game game = new Game();
@@ -46,18 +50,20 @@ public class Game {
          player.setTutorialSteps();
          int tx = 0;
          int ty = 0;
-         attacked = false;
-         for (int tutorialStep = 0; tutorialStep <= player.getTutorialSteps().size(); tutorialStep++) {
+         battled = false;
+         for (int tutorialStep = 0; tutorialStep <= player.getTutorialSteps().size() - 1; tutorialStep++) {
             next = false;
             moveOn = false;
             while (next == false) {
                System.out.println("                                   You are at coordinates: {" + tx + ", " + ty + "}");
+               System.out.println("                                                          tutorial step: " + tutorialStep);
                System.out.println(player.getTutorial().get(tutorialStep));
                String response = scanner.nextLine().toUpperCase();
                if (tutorialStep > 0) {
-                  if (player.getTutorialSteps().get(tutorialStep - 1).equals("ATTACK")) {
+                  if (player.getTutorialSteps().get(tutorialStep).equals("ATTACK")) {
                      tutorialStep += 1;
                      tMana = 100;
+                     tMHealth = 20;
                      boolean chosen = false;
                      while (chosen == false) {
                         System.out.println("Which monster would you like to attack:");
@@ -66,6 +72,11 @@ public class Game {
                         if (Goblin.equals("1")) {
                            System.out.println("You have chosen to attack the Goblin");
                            System.out.println("--------------------Preparing Battle--------------------");
+                           try {
+                              Thread.sleep(3000);
+                           } catch (InterruptedException e) {
+                              Thread.currentThread().interrupt();
+                           }
                            System.out.println("Items equipped");
                            System.out.println("Left: Empty");
                            System.out.println("Armor: Empty");
@@ -76,11 +87,12 @@ public class Game {
                            boolean r = false;
                            tutorialStep += 1;
                            while (r == false) {
-                              System.out.println("Which item do you want to use L)Empty  or R)Rusty Sword");
+                              System.out.println("Which item do you want to use L)Fist  or R)Rusty Sword!");
                               System.out.println(player.getTutorial().get(tutorialStep));
                               String R = scanner.nextLine().toUpperCase();
                               if (R.equals("R")) {
                                  tutorialStep += 1;
+                                 r = true;
                                  System.out.println("You swing your rusty sword towards the Goblin");
                                  tMHealth -= 5;
                                  System.out.println("The Goblin just stabbed you");
@@ -92,22 +104,49 @@ public class Game {
                                  System.out.println(player.getTutorial().get(tutorialStep));
                                  boolean battling = true;
                                  while (battling == true) {
-                                    System.out.println("Which item do you want to use L)Empty  or R)Rusty Sword");
-                                    String tAttack = scanner.nextLine().toUpperCase();
                                     System.out.println(chosenName + "'s Health: " + tHealth + "  Goblin's Health: " + tMHealth);
                                     System.out.println("Your currnt mana is at " + tMana);
                                     System.out.println("");
-                                    System.out.println("Which item do you want to use L)Empty  or R)Rusty Sword");
+                                    System.out.println("Which item do you want to use L)Empty  or R)Rusty Sword hj");
                                     String leftOrRight = scanner.nextLine().toUpperCase();
                                     if (leftOrRight.equals("R")) {
                                        System.out.println("You swing your rusty sword towards the Goblin");
                                        tMHealth -= 5;
                                     }
                                     else if (leftOrRight.equals("L")) {
-                                       
+                                       System.out.println("You swing your fists at the Goblin");
+                                       tMHealth--;
                                     }
                                     else {
-                                       
+                                       System.out.println("You need to attack or your going to die");
+                                    }
+                                    if (tMHealth <= 0) {
+                                       next = true;
+                                       battling = true;
+                                       r = true;
+                                       chosen = true;
+                                       battled = true;
+                                       break;
+                                    }
+                                    tMana++;
+                                    int attackCounter = (int)(Math.random() * 2);
+                                    attackCounter++;
+                                    if (attackCounter == 1) {
+                                       System.out.println("The Goblin just clubbed you");
+                                       tHealth -=  4;
+                                    }
+                                    else {
+                                       System.out.println("The Goblin just stabbed you");
+                                       tHealth -= 2;
+                                    }
+                                    if (tHealth <= 0) {
+                                       battling = false;
+                                       loser = true;
+                                       r = true;
+                                       next = true;
+                                       tutorialStep = 100;
+                                       chosen = true;
+                                       break;
                                     }
                                  }
                               }
@@ -124,6 +163,9 @@ public class Game {
                         }
                      }
                   }
+               }
+               if (tutorialStep > 90) {
+                  break;
                }
                if (player.getTutorialSteps().get(tutorialStep).equals("")) {
                   if (response.contains("")) {
@@ -197,7 +239,7 @@ public class Game {
                         }
                      }
                      else if (player.getTutorialSteps().get(tutorialStep).equals("LOOK")) {
-                        if (attacked == true) {
+                        if (battled == true) {
                            System.out.println("Items in room:");
                            System.out.println(" a Trap Disarming Kit");
                            System.out.println(" a Goblin Dagger");
@@ -215,7 +257,7 @@ public class Game {
                         }
                      }
                      else if (player.getTutorialSteps().get(tutorialStep).equals("GRAB")) {
-                        if (attacked == false) {
+                        if (battled == false) {
                            tutorialStep += 1;
                            boolean didIt = false;
                            while (didIt == false) {
@@ -301,9 +343,24 @@ public class Game {
       else {
          System.out.println("You have chosen to start the game good luck " + chosenName);
       }
-      System.out.println("--------------------------Loading New Game------------------------");
-      System.out.println("");
-      System.out.println("~~~~~~ OBJECTIVE: Defeat all of the monsters in the dungeon ~~~~~~");
+      if (loser == true) {
+         exitGame = true;
+      }
+      if (loser == false) {
+         System.out.println("--------------------------Loading New Game------------------------");
+         try {
+            Thread.sleep(3000);
+         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+         }
+         System.out.println("");
+         System.out.println("~~~~~~ OBJECTIVE: Defeat all of the monsters in the dungeon ~~~~~~");
+         try {
+            Thread.sleep(2000);
+         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+         }
+      }
       while (exitGame != true) {
       if (attacked == false) {
       System.out.println("                   You are at coodinates: {" + player.getX() + ", " + player.getY() + "}");
@@ -425,10 +482,30 @@ public class Game {
                         System.out.println("You have been attacked by a " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + "!!!!");
                      }
                      System.out.println("--------------------Preparing Battle--------------------");
+                     try {
+                        Thread.sleep(1000);
+                     } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                     }
                      System.out.println("Items equipped");
-                     System.out.println("Left: " + player.checkLSlot());
-                     System.out.println("Armor: " + player.checkBSlot());
-                     System.out.println("Right: " + player.checkRSlot());
+                     if (player.checkLSlot() == null) {
+                        System.out.println("Left: Empty");
+                     }
+                     else {
+                        System.out.println("Left: " + player.checkLSlot());
+                     }
+                     if (player.checkBSlot() == null) {
+                        System.out.println("Armor: Empty");
+                     }
+                     else {
+                        System.out.println("Armor: " + player.checkBSlot());
+                     }
+                     if (player.checkRSlot() == null) {
+                        System.out.println("Right: Empty");
+                     }
+                     else {
+                        System.out.println("Right: " + player.checkRSlot());
+                     }
                      invis = 0;
                      dInvis = 0;
                      attacked = false;
@@ -444,7 +521,21 @@ public class Game {
                         System.out.println(player.getName() + "'s Health: " + player.getHealth() + "   " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1) + "'s Health: " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getMHealth());
                         System.out.println("Your current mana is at " + player.getCurrentMana());
                         System.out.println("");
-                        System.out.println("Which item do you want to use L)" + player.checkLSlot() + "   or R)" + player.checkRSlot());
+                        String use = "Which item do you want to use L)";
+                        if (player.checkLSlot() == null) {
+                           use += "Fist";
+                        }
+                        else {
+                           use += player.checkLSlot();
+                        }
+                        use += " R)";
+                        if (player.checkRSlot() == null) {
+                           use += "Fist";
+                        }
+                        else {
+                           use += player.checkRSlot();
+                        }
+                        System.out.println(use);
                         String attack = scanner.nextLine().toUpperCase();
                         if (attack.equals("R")) {
                            if (!player.rSlotOpen()) {
@@ -921,7 +1012,17 @@ public class Game {
                                        }
                                     }
                                  }
-                                 player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).healM(player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getHealAmount());
+                                 if (mHealCD <= 0) {
+                                    player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).healM(player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getHealAmount());
+                                 }
+                                 else {
+                                    mHealCD--;
+                                 }
+                                 if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getHealAmount() > 0) {
+                                    if (mHealCD <= 0) {
+                                       mHealCD = 2;
+                                    }
+                                 }
                               }
                               else if (player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).whereBlock() == monsterAttack) {
                                  damageMBlocked = player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1).getBlockAmount();
@@ -1031,6 +1132,7 @@ public class Game {
                            System.out.println("-------------------------------------------------------");
                            System.out.print("-------------------------------------------------------");
                            exitGame = true;
+                           died = true;
                         }
                         else {
                            System.out.println("You killed the " + player.getRoom(dungeonMap).getMonsters().get(chosenMonster - 1));
@@ -1213,10 +1315,28 @@ public class Game {
                System.out.println("Your mana is at " + player.getCurrentMana());
             }
             if (input.equals("LOOK L")) {
-               System.out.println(player.checkLSlot());
+               if (player.checkLSlot() == null) {
+                  System.out.println("Empty");
+               }
+               else {
+                  System.out.println(player.checkLSlot());
+               }
             }
             if (input.equals("LOOK R")) {
-               System.out.println(player.checkRSlot());
+               if (player.checkRSlot() == null) {
+                  System.out.println("Empty");
+               }
+               else {
+                  System.out.println(player.checkRSlot());
+               }
+            }
+            if (input.equals("LOOK B")) {
+               if (player.checkBSlot() == null) {
+                  System.out.println("Empty");
+               }
+               else {
+                  System.out.println(player.checkBSlot());
+               }
             }
             if (input.equals("EQUIP")) {
                System.out.println("Where do you want to equip an item? R (right) L (left) or B (body)");
@@ -1555,7 +1675,7 @@ public class Game {
             }
          }
       }
-      if (beatTheGame == false) {
+      if (beatTheGame == false && loser == false && died == false) {
          player.setCredits();
          for (int exiting = 0; exiting < 10; exiting++) {
             try {
@@ -1568,11 +1688,47 @@ public class Game {
          for (int exitingCredits = 0; exitingCredits < player.getCredits().size(); exitingCredits++) {
             System.out.println(player.getCredits().get(exitingCredits));
             try {
-               Thread.sleep(4000);
+               Thread.sleep(2000);
             } catch (InterruptedException e) {
                Thread.currentThread().interrupt();
             }
             System.out.println("");
+            try {
+               Thread.sleep(1000);
+            } catch (InterruptedException e) {
+               Thread.currentThread().interrupt();
+            }
+         }
+      }
+      if (loser == true) {
+         for (int L = 0; L < 10; L++) {
+            System.out.println("");
+            try {
+               Thread.sleep(1000);
+            } catch (InterruptedException e) {
+               Thread.currentThread().interrupt();
+            }
+         }
+         System.out.println("                 :( ");
+      }
+      if (died == true) {
+         player.setDeathCredits();
+         for (int clearRoom = 0; clearRoom < 10; clearRoom++) {
+            System.out.println("");
+            try {
+               Thread.sleep(1000);
+            } catch (InterruptedException e) {
+               Thread.currentThread().interrupt();
+            }
+         }
+         for (int death = 0; death < player.getDeathCredits().size(); death++) {
+            System.out.println("");
+            try {
+               Thread.sleep(2000);
+            } catch (InterruptedException e) {
+               Thread.currentThread().interrupt();
+            }
+            System.out.println(player.getDeathCredits().get(death));
             try {
                Thread.sleep(1000);
             } catch (InterruptedException e) {
