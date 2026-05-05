@@ -268,7 +268,7 @@ public class Player {
       credits.add("And Google Gemini AI for explaining concepts that were way too confusing to understand at first and for also");
       credits.add("assisting me in Java coding logic for random side projects that I do often and correcting its own logic");
       credits.add("Finally Thank You for playing my game and hope you play again soon");
-      credits.add("                                                                                    Game Finished 4/29/2026");
+      credits.add("                                                                                    Game Finished 4/30/2026");
    }
    public void setCredits() {
       credits.add("Despite you giving up and exiting I still would like to thank you for trying my game out I know its really hard");
@@ -279,7 +279,7 @@ public class Player {
       credits.add("I would also like to thank myself for creating most of this code");
       credits.add("Finally I'd like to thank you for giving my game a try and if you have the time I'd love you to try to win");
       credits.add("but I suppose it would take possibly hours if your luck sucks hope you come back and play again soon");
-      credits.add("                                                                                    Game Finished 4/29/2026");
+      credits.add("                                                                                    Game Finished 4/30/2026");
    }
    public void resetCredits() {
       for (int creditsLine = credits.size() - 1; creditsLine >= 0; creditsLine--) {
@@ -384,6 +384,6 @@ public class Player {
       deathCredits.add("I would also like to thank myself for creating most of this code");
       deathCredits.add("Finally I'd like to thank you for giving my game a try and if you have the time I'd love you to try to win");
       deathCredits.add("but I suppose it would take possibly hours if your luck sucks hope you come back and play again soon");
-      deathCredits.add("                                                                                    Game Finished 4/29/2026");
+      deathCredits.add("                                                                                    Game Finished 4/30/2026");
    }
 }

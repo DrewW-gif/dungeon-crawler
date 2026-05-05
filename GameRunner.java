@@ -24,5 +24,6 @@ public class GameRunner {
                [x]add piercing attacks
                [x]add weapon attack names
     []potentially add graphics
+    []maybe add custom death screens for each monster
 */
     
